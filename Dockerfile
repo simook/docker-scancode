@@ -1,6 +1,5 @@
-FROM python:2.7
-
-ENV SCANCODE_RELEASE=3.0.2
+FROM python:3.6
+ENV SCANCODE_RELEASE=3.2.3
 
 RUN apt-get update && apt-get install bzip2 xz-utils zlib1g libxml2-dev libxslt1-dev
 
@@ -10,8 +9,8 @@ RUN mkdir scancode-toolkit && tar xjvf scancode-toolkit-*.tar.bz2 -C scancode-to
 
 WORKDIR scancode-toolkit
 
-RUN ./scancode --help 
+RUN ./scancode --reindex-licenses
 
 ENV PATH=$HOME/scancode-toolkit:$PATH
 
-CMD ./scancode -clipeu --verbose /scan --processes `expr $(nproc --all) - 1` --json /scan/licenses.json
+ENTRYPOINT ["./scancode"]
